@@ -1,20 +1,230 @@
-<!DOCTYPE html><html lang="en"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">    <style>        html, body {            margin: 0;             padding: 0;             overflow: hidden;             width: 100%;             height: 100%;            display: flex;             justify-content: center;             align-items: center;            background: transparent;        }
-        .carousel-container {            width: 100%; max-width: 450px;             aspect-ratio: 1 / 1;             position: relative;            background-color: #000;            border-radius: 8px;            overflow: hidden;        }
-        .carousel-track {            display: flex;             width: 100%;             height: 100%;            transition: transform 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);        }
-        .carousel-track img {            width: 100%;             height: 100%;            flex-shrink: 0;             object-fit: cover;             display: block;        }
-        .carousel-arrow {            position: absolute;             top: 50%;             transform: translateY(-50%);            background-color: rgba(255, 255, 255, 0.8);             color: #262626;            border: none;             padding: 8px;             cursor: pointer;             z-index: 10;            font-size: 1.2rem;             border-radius: 50%;             width: 32px;             height: 32px;            display: flex;             justify-content: center;             align-items: center;            box-shadow: 0 4px 8px rgba(0,0,0,0.1);        }
-        .carousel-arrow.left { left: 10px; }        .carousel-arrow.right { right: 10px; }        .carousel-arrow:disabled { display: none; }
-        .carousel-dots {            position: absolute; bottom: 12px; left: 50%;            transform: translateX(-50%);            display: flex; gap: 6px; z-index: 10;        }
-        .dot {            width: 6px; height: 6px;            background-color: rgba(255, 255, 255, 0.5);            border-radius: 50%; cursor: pointer; transition: background 0.3s;        }
-        .dot.active {            background-color: #fff;            transform: scale(1.2);        }    </style></head><body>
-    <div class="carousel-container">        <div class="carousel-track">            <img src="pic1.png" alt="1">            <img src="pic2.png" alt="2">            <img src="pic3.png" alt="3">            <img src="pic4.png" alt="4">            <img src="pic5.png" alt="5">            <img src="pic6.png" alt="6">            <img src="pic7.png" alt="7">        </div>
-        <button class="carousel-arrow left" disabled><i class="fas fa-chevron-left"></i></button>        <button class="carousel-arrow right"><i class="fas fa-chevron-right"></i></button>
-        <div class="carousel-dots" id="dotContainer"></div>    </div>
-    <script>        const track = document.querySelector('.carousel-track');        const images = Array.from(track.querySelectorAll('img'));        const leftArrow = document.querySelector('.carousel-arrow.left');        const rightArrow = document.querySelector('.carousel-arrow.right');        const dotContainer = document.getElementById('dotContainer');
-        let currentIndex = 0;
-        images.forEach((_, i) => {            const dot = document.createElement('div');            dot.classList.add('dot');            if (i === 0) dot.classList.add('active');            dot.addEventListener('click', () => updateCarousel(i));            dotContainer.appendChild(dot);        });
-        const dots = Array.from(document.querySelectorAll('.dot'));
-        const updateCarousel = (index) => {            track.style.transform = `translateX(-${index * 100}%)`;            currentIndex = index;
-            leftArrow.disabled = currentIndex === 0;            rightArrow.disabled = currentIndex === images.length - 1;
-            dots.forEach(dot => dot.classList.remove('active'));            dots[currentIndex].classList.add('active');        };
-        rightArrow.addEventListener('click', () => updateCarousel(currentIndex + 1));        leftArrow.addEventListener('click', () => updateCarousel(currentIndex - 1));    </script></body></html>
+<!----
+ ~ 2010s apple style music player made by @b8nadryl on twitter/x
+ ~ code pastebin link:
+ ~ source code: https://github.com/sayantanm19/js-music-player
+---->
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+
+<body>
+  <div class="player">
+    <div class="window">
+
+      <div class="window-body">
+        <div class="flex">
+          <div class="wheel" style="height:100px;width:100px;">
+            <div class="wheelcontrols">
+              <button class="fas fa-plus" onclick="volumeUp()" style="padding-top:4px; padding-bottom:0;"></button>
+            </div>
+            <table class="wheelcontrols">
+  <th>
+    <button class="fas fa-backward" onclick="prevTrack()"></button>
+  </th>
+  <th class="innerwheel">
+    <button class="playpause-track fas fa-play" onclick="playpauseTrack()"></button>
+  </th>
+  <th>
+    <button class="fas fa-forward" onclick="nextTrack()"></button>
+  </th>
+</table>
+            <div class="wheelcontrols" style="padding:0;">
+              <button class="fas fa-minus" onclick="volumeDown()"></button>
+            </div>
+          </div>
+
+          <div id="musicplayer">
+
+            <div class="flex">
+              <marquee scrollamount="4" class="songtitle"></marquee>
+            </div>
+
+            <div class="seeking">
+              <div class="current-time">00:00</div>
+
+              <input type="range" min="1" max="100" value="0" class="seek_slider" onchange="seekTo()">
+
+              <div class="total-duration">0:00</div>
+            </div>
+
+            <table class="controls">
+              <tr>
+                <td>
+                  <button><div class="fas fa-sync"></div></button>
+                </td>
+                <td>
+                  <button><div class="fas fa-music"></div>
+                </td>
+                <td>
+                  <button><div class="fas fa-random"></div></button>
+                </td>
+              </tr>
+            </table>
+
+            <audio id="music" src=""></audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  // initiate variables
+  let track_name = document.querySelector(".songtitle");
+  let playpause_btn = document.querySelector(".playpause-track");
+  let next_btn = document.querySelector(".next-track");
+  let prev_btn = document.querySelector(".prev-track");
+  let seek_slider = document.querySelector(".seek_slider");
+  let curr_time = document.querySelector(".current-time");
+  let total_duration = document.querySelector(".total-duration");
+  let track_index = 0;
+  let isPlaying = false;
+  let updateTimer;
+  // create new audio element
+  let curr_track = document.getElementById("music");
+  //
+  // DEFINE YOUR SONGS HERE!!!!!
+  // MORE THAN FOUR SONGS CAN BE ADDED!!
+  // JUST ADD ANOTHER BRACKET WITH NAME AND PATH
+  // CATBOX.MOE IS RECOMMENDED FOR UPLOADING MP3 FILES
+  let track_list = [{
+      name: "One Shot One Kill - The Cat's Whiskers",
+      path: "https://files.catbox.moe/fegzmf.mp3"
+    },
+    {
+      name: "Shooting Arrows - The Cat's Whiskers",
+      path: "https://files.catbox.moe/zj81lr.mp3"
+    },
+    {
+      name: "4 REAL - The Cat's Whiskers",
+      path: "https://files.catbox.moe/fxd8fo.mp3"
+    },
+    {
+      name: "My Sweetest Love - The Cat's Whiskers ft. Kazuma Mitchell",
+      path: "https://files.catbox.moe/qe4he5.mp3"
+    },
+    {
+      name: "Mercy On Me - The Cat's Whiskers",
+      path: "https://files.catbox.moe/w7nnf9.mp3"
+    }
+  ];
+  //
+  //
+  //
+  //
+  //
+  function loadTrack(track_index) {
+    clearInterval(updateTimer);
+    resetValues();
+    // load a new track
+    curr_track.src = track_list[track_index].path;
+    curr_track.load();
+    // update details of the track
+    track_name.textContent = track_list[track_index].name;
+    // set an interval of 1000 milliseconds for updating the seek slider
+    updateTimer = setInterval(seekUpdate, 1000);
+    // move to the next track if the current one finishes playing 
+    curr_track.addEventListener("ended", nextTrack);
+  }
+  // reset values
+  function resetValues() {
+    curr_time.textContent = "0:00";
+    total_duration.textContent = "0:00";
+    seek_slider.value = 0;
+  }
+  // checks if song is playing
+  function playpauseTrack() {
+    if (!isPlaying) playTrack();
+    else pauseTrack();
+  }
+  // plays track when play button is pressed
+  function playTrack() {
+    curr_track.play();
+    isPlaying = true;
+    // Update the button class directly
+    let playButton = document.querySelector(".playpause-track");
+    playButton.className = "playpause-track fas fa-pause";
+}
+
+function pauseTrack() {
+    curr_track.pause();
+    isPlaying = false;
+    // Update the button class directly  
+    let playButton = document.querySelector(".playpause-track");
+    playButton.className = "playpause-track fas fa-play";
+}
+  // moves to the next track
+  function nextTrack() {
+    if (track_index < track_list.length - 1)
+      track_index += 1;
+    else track_index = 0;
+    loadTrack(track_index);
+
+      if (isPlaying) playTrack(); 
+  }
+  // moves to the previous track
+  function prevTrack() {
+    if (track_index > 0)
+      track_index -= 1;
+    else track_index = track_list.length;
+    loadTrack(track_index);
+      if (isPlaying) playTrack(); 
+  }
+  
+  //volume control
+  var audio = document.getElementById("music");
+var currentVolume = audio.volume;
+
+function volumeUp() {
+    if (currentVolume < 1.0) {
+        currentVolume += 0.2;
+        audio.volume = currentVolume;
+    }
+}
+
+function volumeDown() {
+    if (currentVolume > 0.0) {
+        currentVolume -= 0.2;
+        audio.volume = currentVolume;
+    }
+}
+  
+  // seeker slider
+  function seekTo() {
+    seekto = curr_track.duration * (seek_slider.value / 100);
+    curr_track.currentTime = seekto;
+  }
+
+  function seekUpdate() {
+    let seekPosition = 0;
+    // check if the current track duration is a legible number
+    if (!isNaN(curr_track.duration)) {
+      seekPosition = curr_track.currentTime * (100 / curr_track.duration);
+      seek_slider.value = seekPosition;
+      // calculate the time left and the total duration
+      let currentMinutes = Math.floor(curr_track.currentTime / 60);
+      let currentSeconds = Math.floor(curr_track.currentTime - currentMinutes * 60);
+      let durationMinutes = Math.floor(curr_track.duration / 60);
+      let durationSeconds = Math.floor(curr_track.duration - durationMinutes * 60);
+      // adding a zero to the single digit time values
+      if (currentSeconds < 10) {
+        currentSeconds = "0" + currentSeconds;
+      }
+      if (durationSeconds < 10) {
+        durationSeconds = "0" + durationSeconds;
+      }
+      if (currentMinutes < 10) {
+        currentMinutes = currentMinutes;
+      }
+      if (durationMinutes < 10) {
+        durationMinutes = durationMinutes;
+      }
+      curr_time.textContent = currentMinutes + ":" + currentSeconds;
+      total_duration.textContent = durationMinutes + ":" + durationSeconds;
+    }
+  }
+  // load the first track in the tracklist
+  loadTrack(track_index);
+</script>
