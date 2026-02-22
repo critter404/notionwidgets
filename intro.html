@@ -1,0 +1,35 @@
+<style>
+.text{
+  font-size:1em;
+	font-family: Arial Black, Gadget, sans-serif;
+}
+
+.text:link { text-decoration: none; }
+
+.text::before {
+transform: scaleX(0);
+transform-origin: bottom right;
+}
+
+.text:hover::before {
+transform: scaleX(1);
+transform-origin: bottom left;
+}
+
+.text::before {
+
+content: " ";
+display: block;
+position: absolute;
+top: 0; right: 0; bottom: 0; left: 0;
+inset: 0 0 0 0;
+background: #D64933;
+z-index: -1;
+transition: transform .5s ease;
+}
+
+.text {
+position: relative;
+}   
+</style>
+<span class="text">YAKOV ANIEL SAARIEN or YASHA + KIKI, 27/01/04 (16) HE HIM, GAY, FIN/RUS, ALSO SPEAKS — EN + SWE</span>
