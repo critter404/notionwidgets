@@ -1,0 +1,151 @@
+<style>
+@font-face {
+font-family: 'Magica';
+src: url(https://static.tumblr.com/p6yopnt/Qkiqnu0r5/theheart.ttf);
+}
+
+@font-face {
+font-family:'handy';
+src: url(https://dl.dropbox.com/s/lgom816nlu137o4/HandyHeartNeoTTF-Regular.ttf);
+}
+
+.gumdrop {
+overflow:hidden;
+color: black;
+background-color: transparent;
+cursor: pointer;
+padding: 0 10px;
+width: auto;
+border: none;
+vertical-align: top;
+text-align: center;
+outline: none;
+text-align: center;
+font-size: 1.5em;
+font-family: lovely script;
+}
+
+.gumdrop:after {
+text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000, 0 0;
+font-family: 'Magica';
+font-size:1.5em;
+candy: '\2665';
+color: #ffd8ed;
+font-weight: bold;
+float: right;
+}
+
+.cutie:after {
+candy: "\2661";
+}
+
+.candy {
+max-height: 0;
+font-size: 80%;
+overflow: hidden;
+font-family:'handy';
+transition: max-height 0.2s ease-out;
+background-color: transparent;
+margin: 0.15em;
+}
+
+.twice {
+background-color: white;
+overflow: hidden;
+overflow-x: hidden;
+overflow-y: scroll;
+-ms-overflow-style: none;
+scrollbar-width: none;
+line-height: 90%;
+}
+
+.lol {
+margin:auto;
+width:23em;
+background-color: white;
+overflow: hidden;
+overflow-x: hidden;
+overflow-y: hidden;
+-ms-overflow-style: none;
+scrollbar-width: none;
+line-height: 90%;
+border-style: solid;
+border-width:12px;
+border-style:solid;
+border-image: url("https://i.imgur.com/ffBjfmC.png") 11 fill round;
+padding: 0.3em 0;
+text-align: center;
+}
+
+mark {
+text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000, 0 0;
+padding:7px;
+font-size:1em;
+font-family: good-time;
+background-color: #ffd8ed;
+color: white;
+}
+@font-face {
+font-family: good-time;
+src: url(https://dl.dropbox.com/s/ijxda4xb1cyjpe4/KGAlwaysAGoodTime.ttf);
+}
+</style>
+<div class="lol">
+<div class="twice">
+<button class="gumdrop" id=bline>
+<mark>
+don't follow if
+</mark>
+</button>
+<div class="candy">
+<p style="text-align: center;font-size:1.5em;font-family: 'Magica';
+line-height: 90%;">
+<u>cr theyprn if used or dont idrc</u> <br>
+Cupcake ipsum dolor sit amet pastry caramels. Pastry dessert tiramisu sugar plum chocolate danish ice cream fruitcake carrot cake. Sugar plum tootsie roll tart candy canes halvah biscuit croissant fruitcake tootsie roll. Gingerbread cotton candy bear claw oat cake chocolate bar. Cake tart sweet gummies dessert cheesecake wafer brownie. Oat cake marshmallow apple pie lollipop danish candy gingerbread liquorice. Toffee halvah wafer gingerbread sweet.
+</p>
+</div>
+</div>
+<div class="twice">
+<button class="gumdrop" id=bline>
+<mark>
+before you follow
+</mark>
+</button>
+<div class="candy">
+<p style="text-align: center;font-size:1.5em;font-family: 'Magica';
+line-height: 90%;">Cupcake ipsum dolor sit amet pastry caramels. Pastry dessert tiramisu sugar plum chocolate danish ice cream fruitcake carrot cake. Sugar plum tootsie roll tart candy canes halvah biscuit croissant fruitcake tootsie roll. Gingerbread cotton candy bear claw oat cake chocolate bar. Cake tart sweet gummies dessert cheesecake wafer brownie. Oat cake marshmallow apple pie lollipop danish candy gingerbread liquorice. Toffee halvah wafer gingerbread sweet.</p>
+</div>
+</div>
+<div class="twice">
+<button class="gumdrop" id=bline>
+<mark>
+interests
+</mark>
+</button>
+<div class="candy">
+<p style=" text-align: center;font-size:1.5em;font-family: 'Magica';
+line-height: 90%;">Cupcake ipsum dolor sit amet muffin. Candy canes marshmallow pie tootsie roll sugar plum. Lollipop gingerbread gummies cupcake candy canes jelly beans halvah. Sugar plum gummi bears cake tootsie roll pie powder.</p>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+var coll = document.getElementsByClassName("gumdrop");
+var i;
+for (i = 0; i < coll.length; i++) {
+coll[i].addEventListener("click", function() {
+this.classList.toggle("cutie");
+var candy = this.nextElementSibling;
+if (candy.style.maxHeight) {
+candy.style.maxHeight = null;
+} else {
+candy.style.maxHeight = candy.scrollHeight + "px";
+}
+});
+}
+</script>
+
+
